@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {% load static %}
+    {% load socialaccount %}
+    <link
+      rel="stylesheet"
+      href="{% static 'HouseListing/assets/css/bootstrap.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'HouseListing/assets/css/flaticon.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'HouseListing/assets/css/remixicon.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'HouseListing/assets/css/owl.carousel.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'HouseListing/assets/css/fancybox.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'HouseListing/assets/css/jquery-ui-min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'HouseListing/assets/css/odometer.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'HouseListing/assets/css/aos.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'HouseListing/assets/css/style.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'HouseListing/assets/css/responsive.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'HouseListing/assets/css/dark-theme.css' %}"
+    />
+    <title>Manyumba -- Real Estate Listing</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="{% static 'HouseListing/images/favicon.jpeg' %}"
+    />
+
+    
+    {% block headstyle %}
+      
+    {% endblock headstyle %}
+      
+  </head>
+
+  <body>
+    <!-- <div class="loader js-preloader">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div> -->
+
+    <!-- <div class="switch-theme-mode">
+      <label id="switch" class="switch">
+        <input type="checkbox" onchange="toggleTheme()" id="slider" />
+        <span class="slider round"></span>
+      </label>
+    </div> -->
+
+    <div class="page-wrapper">
+      <header class="header-wrap">
+        <div class="container">
+          <nav class="navbar navbar-expand-md navbar-light">
+            <a class="navbar-brand" href="/home">
+              <img
+                class="logo-light" style="height: 50px;"
+                src="{% static 'HouseListing/images/translogo.png' %}"
+                alt="logo"
+              />
+              <!-- <img
+                class="logo-dark" style="height: 50px;"
+                src="{% static 'HouseListing/images/logo.png' %}"
+                alt="logo"
+              /> -->
+            </a>
+            <div
+              class="collapse navbar-collapse main-menu-wrap"
+              id="navbarSupportedContent"
+            >
+            <div class="menu-close d-lg-none">
+                <a href="javascript:void(0)"> <i class="ri-close-line"></i></a>
+              </div>
+              <ul class="navbar-nav ms-auto">
+                
+                {% if request.user.is_authenticated %}
+                <div class="header-btn">
+                <!-- <li class="nav-item"> -->
+                  <a href="{% url 'HouseListing:listing_dashboard' %}" class="btn style3 my-1" > List </a>
+                <!-- </li> -->
+                  <a href="{% url 'HouseListing:dashboard' %}" class="btn style3" >Manage Rentals</a>
+
+                </div>
+               
+                <li class="nav-item">
+                </li>
+                
+                <li class="nav-item d-lg-none">
+                  <a
+                    href="{% url 'HouseListing:logout_user' %}"
+                    class="btn style2"
+                  >
+                    Sign Out
+                  </a>
+                </li>
+
+                {% else %}                 
+
+                              
+                <li class="nav-item d-lg-none">
+                  <button
+                    type="button"
+                    class="btn style3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#signIn"
+                    style="background-color: green!important;"
+                  >
+                    Sign In
+                  </button>
+                </li>
+                <li class="nav-item d-lg-none">
+                  <button
+                    type="button"
+                    class="btn style3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#signIn"
+                    id="listbtn1"
+                  >
+                    List
+                  </button>
+                </li>
+                <li class="nav-item d-lg-none">
+                  <button
+                    type="button"
+                    class="btn style2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#signIn"
+                    id="managebtn1"
+                  >
+                    Manage Rentals
+                  </button>
+                </li>
+                {% endif %}
+              </ul>
+              <div class="others-options md-none">
+                <div class="header-btn">
+                  {% if not request.user.is_authenticated %}
+                   <button
+                    type="button"
+                    class="btn style3 my-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#signIn"
+                   
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    type="button"
+                    class="btn style3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#signIn"
+                    id="listbtn2"
+                   
+
+                  >
+                    List
+                  </button>
+                  <button
+                    type="button"
+                    class="btn style2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#signIn"
+                    id="managebtn2"
+                  >
+                    Manage Rentals
+                  </button>
+                  {% else %}
+                  <a
+                    href="{% url 'HouseListing:logout_user' %}"
+                    class="btn style2"
+                  >
+                    Sign Out
+                  </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </nav>
+          <div class="mobile-bar-wrap">
+            <div class="mobile-menu d-lg-none">
+              <a href="javascript:void(0)"><i class="ri-menu-line"></i></a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+          
+      
+      {% block body %}
+      {% endblock body %}
+
+
+      <footer  class="footer" style="background-color: slategray;">
+       <div class="container pt-4">
+         <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 pe-xl-5">
+                <div class="footer-widget">
+                  <a href="#" class="footer-logo">
+                    <img src="{% static 'HouseListing/images/logo.png' %}" style="height: 80px;" alt="Image" />
+                  </a>
+                  <p class="comp-desc text-white mt-3">
+                    Manyumba is a Digital Real Estate directory. We provide a platform for realtors to list properties
+                  </p>
+                 
+                </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 my-4">
+                <div class="footer-widget">
+                  <h3 class="footer-widget-title text-white">Featured Neighbourhoods</h3>
+                  <ul class="footer-menu list-style">
+                    <li>
+                      <a href="{% url 'HouseListing:search_listing_town' 'Kitengela' %}" class="text-white" >
+                        <i class="ri-arrow-right-s-line"></i>
+                        Kitengela
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'HouseListing:search_listing_town' 'Rongai' %}" class="text-white" >
+                        <i class="ri-arrow-right-s-line"></i>
+                        Rongai
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'HouseListing:search_listing_town' 'Kilimani' %}" class="text-white" >
+                        <i class="ri-arrow-right-s-line"></i>
+                        Kilimani
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'HouseListing:search_listing_town' 'Thika Rd' %}" class="text-white" >
+                        <i class="ri-arrow-right-s-line"></i>
+                        Thika Rd
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'HouseListing:search_listing_town' 'Embakasi' %}" class="text-white" >
+                        <i class="ri-arrow-right-s-line"></i>
+                        Embakasi
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'HouseListing:search_listing_town' 'Waiyaki Way' %}" class="text-white" >
+                        <i class="ri-arrow-right-s-line"></i>
+                        Waiyaki Way
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'HouseListing:search_listing_town' 'Kiambu Rd' %}" class="text-white" >
+                        <i class="ri-arrow-right-s-line"></i>
+                        Kiambu Rd
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'HouseListing:search_listing_town' 'Syokimau' %}" class="text-white" >
+                        <i class="ri-arrow-right-s-line"></i>
+                        Syokimau
+                      </a>
+                    </li>
+                  
+                   
+                  </ul>
+                </div>
+              </div>
+              
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 my-4">
+                <div class="footer-widget">
+                 <p class="text-white">Contact us on </p>
+                 <p class="text-white">
+                  <a class="text-white text-decoration-underline" href="tel:+254742522227"> +254742522227  </a>| 
+                  <a class="text-white text-decoration-underline" href="tel:++254 708 117628">+254 708 117628</a></p>
+
+                 <p class="text-white">Info@manyumba.co</p>
+                 <p class="text-white">
+                    P.O Box: 1180 - 00618 <br>
+                    Office: Repen plaza, Second floor suite 203.
+                 </p>
+                 
+                </div>
+              </div>
+        </div>
+
+         <div class="row align-items-center my-2">
+              <div class="col-md-6 text-center">
+                <p class="copyright-text text-white"> 
+                  <i class="ri-copyright-line"></i>Copyright © 2022 Manyumba. All Rights
+                 | Designed by 
+                  <a href="https://drewapps.com" class="text-decoration-underline" target="_blank"
+                    >Drewapps</a
+                  >
+                </p>
+              </div>
+              <div class="col-md-6 my-4 text-center">
+                <ul class="social-profile list-style style1">
+                  <li>
+                    <a target="_blank" href="https://www.facebook.com/manyumb">
+                      <i class="ri-facebook-fill"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a target="_blank" href="https://twitter.com/Manyumba2">
+                      <i class="ri-twitter-fill"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a target="_blank" href="https://www.instagram.com/manyumba_ke/">
+                      <i class="ri-instagram-line"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a target="_blank" href="https://www.linkedin.com/company/manyumba/">
+                      <i class="ri-linkedin-fill"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a target="_blank" href="https://www.youtube.com/channel/UCL17Xwsd3f2I_KHm_3tS_9A">
+                      <i class="ri-youtube-fill"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+       </div>
+         <img
+          src="{% static 'HouseListing/images/skyline.png' %}"
+          alt="Image"
+          class="footer-shape-one"
+        />
+        
+      </footer>
+
+       <a href="javascript:void(0)" class="back-to-top bounce"
+      ><i class="ri-arrow-up-s-line"></i
+      ></a>
+    </div>
+
+    <!-- next -->
+    
+        
+
+    <div class="modal fade" id="signIn" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <i class="ri-close-line"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row align-items-center gx-5">
+              <div class="col-md-6">
+                <div class="login-bg bg-f"></div>
+              </div>
+              <div class="col-md-6">
+                <div class="login-content">
+                  <h2>Sign In</h2>
+                  <form class="user-form" action="{% url 'HouseListing:login_user' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <input
+                            id="text"
+                            name="username"
+                            type="text"
+                            placeholder="Username"
+                            required
+                          />
+
+                          <input type="hidden" id="next" name="next" value="" />
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <input
+                            id="pwd"
+                            name="password"
+                            type="password"
+                            placeholder="Password"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <button type="submit" class="btn style2">Login Now</button>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <p class="text-center mb-10">Or</p>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          {% if user.is_authenticated %}
+                            <p>Welcome, You are logged in as {{ user.username }}</p>
+                          {% else %}
+                          <a href="{% provider_login_url 'google' %}" class="btn btn-primary btn-block" style="border: solid 1px !important;">
+                            <span><i class="ri-google-fill"></i></span>
+                            Sign In With Google
+                          </a>
+                          {% endif %}
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        Don't Have an Account? <a href="{% url 'HouseListing:register_user' %}" 
+                    data-bs-toggle="modal"
+                    data-bs-target="#signUp">Register</a>
+                      </div>
+                     
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="signUp" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <i class="ri-close-line"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row align-items-center gx-5">
+              <div class="col-md-6">
+                <div class="login-bg bg-f"></div>
+              </div>
+              <div class="col-md-6">
+                <div class="login-content">
+                  
+                  {% if error_message %}
+                  <div class="alert alert-warning">
+                    {{error_message}}
+                  </div>
+                  {% endif %}
+                  <h2>Sign Up</h2>
+                  <p>Please fill the form to create an account</p>
+                  <form class="user-form" action="{% url 'HouseListing:register_user' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <input type="hidden" id="next_signup" name="next_signup" value="pta" />
+                          <input
+                            id="email"
+                            name="username"
+                            type="email"
+                            placeholder="Email"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <input
+                            id="pwd_2"
+                            name="password"
+                            type="password"
+                            placeholder="Password"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-12 col-12">
+                        <div class="checkbox style3">
+                          <input type="checkbox" id="test_1" />
+                          <label for="test_1">
+                            I Agree with the
+                            <a class="link style1" href="terms-of-service.html"
+                              >Terms &amp; conditions</a
+                            >
+                            &amp;
+                            <a class="link style1" href="privacy-policy.html"
+                              >privacy policy</a
+                            >
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <button class="btn style1">Register Now</button>
+                        </div>
+                      </div>
+
+                       <div class="col-12">
+                        Already Have an Account? <a href="#" 
+                    data-bs-toggle="modal"
+                    data-bs-target="#signIn">Sign In</a>
+                      </div>
+                     
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   
+
+    <script src="{% static 'HouseListing/assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'HouseListing/assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'HouseListing/assets/js/form-validator.min.js' %}"></script>
+    <script src="{% static 'HouseListing/assets/js/contact-form-script.js' %}"></script>
+    <script src="{% static 'HouseListing/assets/js/aos.js' %}"></script>
+    <script src="{% static 'HouseListing/assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'HouseListing/assets/js/jquery-ui-min.js' %}"></script>
+    <script src="{% static 'HouseListing/assets/js/odometer.min.js' %}"></script>
+    <script src="{% static 'HouseListing/assets/js/fancybox.js' %}"></script>
+    <script src="{% static 'HouseListing/assets/js/jquery.appear.js' %}"></script>
+    <script src="{% static 'HouseListing/assets/js/tweenmax.min.js' %}"></script>
+    <script src="{% static 'HouseListing/assets/js/main.js' %}"></script>
+    <script src="{% static 'HouseListing/jquery.bootstrap-growl.min.js' %}"></script>
+    
+
+    
+    {% block scripts %}
+      
+    {% endblock scripts %}
+      
+
+    {%if messages%}
+              {% for message in messages %}
+              <script type="text/javascript">
+                function ba() {
+                  $(".bootstrap-growl").remove();
+                  $.bootstrapGrowl('{{message}}', {
+                    ele: 'body', // which element to append to
+                    type: '{{message.tags}}',
+                    align: 'center',
+                    delay: 3000,
+                    offset: { from: 'top', amount: 70 },
+                    width: 300,
+                    allow_dismiss: true,
+                    stackup_spacing: 10
+
+                  }
+                  )
+                }
+                ba()
+              </script>
+          {%endfor%}
+          {%endif%}
+
+      <script>
+        var next_input = $('#next')
+        var next_input_signup = $('#next_signup')
+
+        $('#listbtn2').on("click", function(){
+          next_input.val('list')
+          next_input_signup.val('list')
+        });
+        $('#managebtn2').on("click", function(){
+          next_input.val('manage')
+          next_input_signup.val('manage')
+        })
+        $('#listbtn1').on("click", function(){
+          next_input.val('list')
+          next_input_signup.val('list')
+        });
+        $('#managebtn1').on("click", function(){
+          next_input.val('manage')
+          next_input_signup.val('manage')
+        })
+        $('#see_options').on("click", function(){
+          next_input.val('sale_home')
+          next_input_signup.val('sale_home')
+        })
+        $('#see_options2').on("click", function(){
+          next_input.val('sale_home')
+          next_input_signup.val('sale_home')
+        })
+      </script>
+  </body>
+</html>
